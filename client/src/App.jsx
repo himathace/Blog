@@ -1,37 +1,19 @@
-import { useState,useEffect } from 'react'
+import Login from './pages/login'
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
 
 function App() {
 
-  const [display,setdisplay]=useState("")
-
-  
-  useEffect(()=>{
-
-    const fetchdata=async ()=>{
-      try{
-        const responce=await fetch("http://localhost:3000/pages")
-        const data=await responce.json()
-        setdisplay(data.message)
-      }
-      catch(error){
-        alert(error)
-      }
-    }
-
-    fetchdata()
-
-
-  },[])
-
-  
-  
 
   return (
-    <>
-      <h1 className='text-red-600'>{display}</h1>
-      
 
-    </>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<Login />} ></Route>
+        </Routes>
+      
+      </BrowserRouter>
+
+      
   )
 }
 
