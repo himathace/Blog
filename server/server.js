@@ -37,22 +37,27 @@ app.post("/login",(req,res)=>{
     }
 })
 
-app.get("/dashboard",(req,res)=>{
+
+app.get("/dashboard",auth,(req,res)=>{
+    res.json({message:"this is dashboard"})
+})
+
+
+function auth(req,res,next){
 
     const token=req.cookies.logincookie
 
     if(!token){
-        return res.json({message:"no token found"})
+        return res.status(401).json({message:"unauthorized",status:401})
     }
 
     jwt.verify(token,process.env.serect_key,(error,data)=>{
         if(error){
-            return res.json({message:"invlaid auth"})
+            return res.status(401).json({message:"invlaid auth",status:401})
         }
-        res.json({mesage:"welocme"})
-
+        next()
     })
-})
+}
 
 app.post("/logout",(req,res)=>{
     res.clearCookie("logincookie")
