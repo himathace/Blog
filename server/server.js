@@ -1,5 +1,9 @@
 const express=require("express")
+const cors=require("cors")
 const app=express()
+
+app.use(express.json())
+app.use(cors())
 
 
 const user={
@@ -8,7 +12,7 @@ const user={
 }
 
 app.get("/pages",(req,res)=>{
-    res.json("hello")
+    res.json({message:"yoo"})
 })
 
 app.listen(3000)
