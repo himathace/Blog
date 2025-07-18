@@ -29,21 +29,20 @@ app.post("/login",(req,res)=>{
             sameSite:"strict",
             maxAge:60*60*1000
         })
-
-        res.json({message:"logged in"})  // convert js object in to json string
+        res.status(200).json({message:"logged in",status:200,token:token})  // convert js object in to json string
  
     }else{
-        res.json({message:"username or password invalid"})
+        res.status(400).json({message:"username or password invalid",status:400})
     }
 })
 
 
 app.get("/dashboard",auth,(req,res)=>{
-    res.json({message:"this is dashboard"})
+    res.status(200).json({message:"this is dashboard",status:200})
 })
 
 
-function auth(req,res,next){
+function auth(req,res,next){    
 
     const token=req.cookies.logincookie
 
