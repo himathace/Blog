@@ -14,7 +14,7 @@ app.use(cookieparder())
 
 
 const user={
-    name:"jake",
+    name:"paul",
     password:"12345"
 }
 
@@ -29,7 +29,7 @@ app.post("/login",(req,res)=>{
             sameSite:"strict",
             maxAge:60*60*1000
         })
-        res.status(200).json({message:"logged in",status:200,token:token})  // convert js object in to json string
+        res.status(200).json({message:"logged in",status:200})  // convert js object in to json string
  
     }else{
         res.status(400).json({message:"username or password invalid",status:400})
@@ -38,7 +38,11 @@ app.post("/login",(req,res)=>{
 
 
 app.get("/dashboard",auth,(req,res)=>{
-    res.status(200).json({message:"this is dashboard",status:200})
+    res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.username})
+})
+
+app.get("/create",auth,(req,res)=>{
+    res.status(200).json({message:"this is create",status:200})
 })
 
 
@@ -54,6 +58,7 @@ function auth(req,res,next){
         if(error){
             return res.status(401).json({message:"invlaid auth",status:401})
         }
+        req.userinfo=data
         next()
     })
 }

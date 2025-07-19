@@ -1,9 +1,11 @@
-import { useEffect,useState } from "react"
+import { useEffect,useState,useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import Postcard from "../cards/postcard"
 
 function Dash(){
 
     const [display,setdispaly]=useState(0)
+    const inputref=useRef(null)
 
     const navigate=useNavigate()
 
@@ -29,6 +31,7 @@ function Dash(){
                 }
 
                 if(data.status===200){
+                    inputref.current=data.name
                     return setdispaly(1)
                 }
             }
@@ -87,13 +90,13 @@ function Dash(){
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
+                                        <a href="/create" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
                                             Create
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
-                                            user
+                                        <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200" ref={inputref} >
+                                            {inputref.current}
                                         </a>
                                     </li>
                                 </>
@@ -116,68 +119,9 @@ function Dash(){
                     <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">BLOG POSTS</h1>
 
                     <div className="space-y-8">
-                    {/* Blog Post 1 */}
-                    <article className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-                        <h2 className="text-2xl font-semibold mb-2 text-gray-900">The Art of Minimalist Design</h2>
-                        <p className="text-gray-600 mb-4">
-                        by <span className="font-medium text-gray-700">Jane Doe</span>
-                        </p>
-                        <a href="#" className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
-                        Read More
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                        </a>
-                    </article>
 
-                    {/* Blog Post 2 */}
-                    <article className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-                        <h2 className="text-2xl font-semibold mb-2 text-gray-900">Understanding Server Components in Next.js</h2>
-                        <p className="text-gray-600 mb-4">
-                        by <span className="font-medium text-gray-700">John Smith</span>
-                        </p>
-                        <a href="#" className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
-                        Read More
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                        </a>
-                    </article>
-
-                    {/* Blog Post 3 (Example) */}
-                    <article className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-                        <h2 className="text-2xl font-semibold mb-2 text-gray-900">The Future of Web Development</h2>
-                        <p className="text-gray-600 mb-4">
-                        by <span className="font-medium text-gray-700">Alice Johnson</span>
-                        </p>
-                        <a href="#" className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
-                        Read More
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                        </a>
-                    </article>
+                        <Postcard />
+                        <Postcard />
                     </div>
                 </main>
             </div>
