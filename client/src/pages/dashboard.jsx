@@ -120,8 +120,7 @@ function Dash(){
 
                     <div className="space-y-8">
 
-                        <Postcard />
-                        <Postcard />
+                        <Postcard post={{title:"Feture of AI",author:"himath demiwka"}}/>
                     </div>
                 </main>
             </div>

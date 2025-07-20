@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 
 function Create(){
 
+    const [title,settiele]=useState("")
+    const [content,setcontent]=useState("")
     const navigate=useNavigate()
 
     useEffect(()=>{
@@ -35,6 +37,11 @@ function Create(){
     },[])
 
 
+    function publishpost(){
+        
+    }
+
+
     return(
 
         <div class="bg-gray-50 min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
@@ -48,6 +55,7 @@ function Create(){
                         id="title" 
                         placeholder="Enter your post title here..." 
                         class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base placeholder-gray-400 text-gray-900"
+                        onChange={(e)=>{settiele(e.target.value)}}
                     />
                 </div>
                 
@@ -58,6 +66,7 @@ function Create(){
                         rows="10" 
                         placeholder="Start writing your amazing content..." 
                         class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base placeholder-gray-400 text-gray-900 resize-y"
+                        onChange={(e)=>{setcontent(e.target.value)}}
                     ></textarea>
                 </div>
                 
@@ -65,6 +74,7 @@ function Create(){
                     <button 
                         type="submit" 
                         class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-colors duration-200"
+                        onClick={publishpost}
                     >
                         Publish
                     </button>

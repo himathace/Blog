@@ -1,11 +1,11 @@
-function Postcard(){
+function Postcard({post}){
 
     return(
 
         <article className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-            <h2 className="text-2xl font-semibold mb-2 text-gray-900">The Art of Minimalist Design</h2>
+            <h2 className="text-2xl font-semibold mb-2 text-gray-900">{post.title}</h2>
             <p className="text-gray-600 mb-4">
-            by <span className="font-medium text-gray-700">Jane Doe</span>
+            by <span className="font-medium text-gray-700">{post.author}</span>
             </p>
             <a href="#" className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
             Read More
