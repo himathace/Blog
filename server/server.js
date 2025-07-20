@@ -13,13 +13,45 @@ app.use(cors({
 app.use(cookieparder())
 
 
-const user={
-    name:"paul",
-    password:"12345"
-}
+const user=[
+    {
+        name:"paul",
+        password:"12345",
+        email:"himath@gmail.com"
+    },
+    {
+        name:"bandara",
+        password:"1111",
+        email:"bandara@gmail.com"
+    }
+]
+
+app.post("/register",(req,res)=>{
+    const enterusername=req.body.inputname
+    const enteremail=req.body.inputemail
+    const enterpassword=req.body.inputpassword
+
+    let newobject={name:enterusername,password:enterpassword,email:enteremail}
+    user.push(newobject)
+
+    res.status(200).json({status:200})
+
+
+})
+
 
 app.post("/login",(req,res)=>{
-    if(req.body.username===user.name && req.body.password===user.password){
+
+    let finduser=false
+    
+    user.forEach(use=>{
+        if(req.body.username===use.name && req.body.password===use.password){
+            finduser=true
+            return
+        }
+    })
+
+    if(finduser){
 
         const token=jwt.sign({username:req.body.username},process.env.serect_key)
 
@@ -30,7 +62,7 @@ app.post("/login",(req,res)=>{
             maxAge:60*60*1000
         })
         res.status(200).json({message:"logged in",status:200})  // convert js object in to json string
- 
+    
     }else{
         res.status(400).json({message:"username or password invalid",status:400})
     }
