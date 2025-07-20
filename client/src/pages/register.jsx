@@ -1,75 +1,71 @@
-import { useState,useEffect } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-function Login(){
-
-    const [newusername,setusername]=useState("")
-    const [newpassword,setpassword]=useState("")
+function Register(){
 
     const navigate=useNavigate()
 
+    const [username,setusername]=useState("")
+    const [email,setemail]=useState("")
+    const [password,setpassword]=useState("")
 
-    const letuserlogin=async (e)=>{
-        e.preventDefault()
-
+    const send_credentails=async ()=>{
 
         try{
 
-            const responce=await fetch("http://localhost:3000/login",{
+            const userdata=await fetch("http://localhost:3000/register",{
                 method:"POST",
-                credentials:"include",
                 headers:{
                     "content-type":"application/Json"
                 },
-                body:JSON.stringify({            // converts a JavaScript object (or array) into a JSON string.
-                    username:newusername,
-                    password:newpassword
+                body:JSON.stringify({
+                    inputname:username,
+                    inputemail:email,
+                    inputpassword:password
                 })
             })
 
-            const data=await responce.json()  // converts  JSON string  into  JavaScript object.
+            const data=await userdata.json()
 
             if(data.status===200){
-                localStorage.setItem("jwttoken",data.token)
-                alert(data.message)
-                navigate("/")
+                alert("register success")
+                navigate("/login")
+
             }
-            else if(data.status===400){
-                alert(data.message)
+            else{
+                alert("error")
             }
-
-            
-
-
         }
         catch(error){
             alert(error)
         }
     }
-    
+
+
     return(
-            
+
         <div className="flex min-h-screen justify-center items-center bg-[#f5f5f5]">
             <div className=" w-96 rounded-xl p-10 bg-white shadow-xl">
-                <div className="text-center text-2xl  mb-2 font-medium">Welcome back</div>
-                <div className="text-slate-500 mb-10 text-center text-sm">Please enter your details to sign in</div>
+                <div className="text-center text-2xl  mb-2 font-medium">Create account</div>
+                <div className="text-slate-500 mb-10 text-center text-sm">Please fill in your details to sign up</div>
+                <div className="mb-6">
+                    <label for="email" className="block mb-3 text-sm font-semibold">username</label>
+                    <input type="email" id="email" placeholder="Enter your username" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1] focus:outline-none focus:ring-2 focus:ring-gray-700 " required onChange={(e)=>{setusername(e.target.value)}} ></input>
+                </div>
                 <div className="mb-6">
                     <label for="email" className="block mb-3 text-sm font-semibold">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1] focus:outline-none focus:ring-2 focus:ring-gray-700 " onChange={(e)=>{
-                        setusername(e.target.value)
-                    }} required></input>
+                    <input type="email" id="email" placeholder="Enter your email" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1] focus:outline-none focus:ring-2 focus:ring-gray-700 " required onChange={(e)=>{setemail(e.target.value)}} ></input>
                 </div>
                 <div className="mb-4">
                     <label for="password" className="block mb-3 text-sm font-semibold">Password</label>
-                    <input type="password" id="password" placeholder="••••••••" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1]  focus:outline-none focus:ring-2 focus:ring-gray-700" onChange={(e)=>{
-                        setpassword(e.target.value)
-                    }} required></input>
+                    <input type="password" id="password" placeholder="••••••••" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1]  focus:outline-none focus:ring-2 focus:ring-gray-700" required onChange={(e)=>{setpassword(e.target.value)}} ></input>
                 </div>
-                <div className="text-right text-gray-600 mb-4">
-                    <label className="text-sm">Forget password?</label>
+                <div className=" text-gray-500 mb-4 space-x-3 flex items-start">
+                    <input type="checkbox" className="mt-1"></input>
+                    <label className="text-sm">By creating an account, you agree to our <span className="font-bold">Terms of Service</span>  and <span className="font-bold"> Privacy Policy</span></label>
                 </div>
                 <div className="mb-4">
-                    <button className="w-full h-12 bg-black rounded-lg text-white font-medium hover:bg-gray-800" onClick={letuserlogin}>Sign in</button> 
+                    <button className="w-full h-12 bg-black rounded-lg text-white font-medium hover:bg-gray-800" onClick={send_credentails} >Create account</button> 
                 </div>
                 <div className="mb-4 flex items-center" >
                     <div className="flex-1 border-t border-[#e1e1e1]"></div>
@@ -89,13 +85,12 @@ function Login(){
                 </div>
 
                 <div className="flex justify-center text-sm text-[#666] gap-x-2">
-                    Don't have an account? <a href="/register" className="text-black font-semibold"> Sign up</a>
+                    Don't have an account? <a href="/login" className="text-black font-semibold"> Sign in</a>
                 </div>
 
             </div>
         </div>
-
     )
 }
 
-export default Login
+export default Register
