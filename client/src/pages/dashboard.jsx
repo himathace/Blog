@@ -5,6 +5,7 @@ import Postcard from "../cards/postcard"
 function Dash(){
 
     const [display,setdispaly]=useState(0)
+    const [loading,setLoading]=useState(true)
     const inputref=useRef(null)
 
     const navigate=useNavigate()
@@ -14,6 +15,8 @@ function Dash(){
     useEffect(()=>{
 
         const validate=async ()=>{
+
+            setLoading(true)
             
             try{
                 const userdata=await fetch("http://localhost:3000/dashboard",{
@@ -38,6 +41,9 @@ function Dash(){
             catch(error){
                 alert(error)
                 setdispaly(0)
+            }
+            finally{
+                setLoading(false)
             }
         }
 
@@ -65,6 +71,16 @@ function Dash(){
         catch(error){
             alert(error)
         }
+    }
+
+
+    if(loading){
+
+        return(
+             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-gray-600">Loading...</div>
+            </div>
+        )
     }
 
     
