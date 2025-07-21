@@ -3,6 +3,7 @@ const cors=require("cors")
 const app=express()
 const jwt=require("jsonwebtoken")
 const cookieparder=require("cookie-parser")
+const { body , validationResult, check }=require("express-validator")
 require("dotenv").config()
 
 app.use(express.json())  // converting a JSON string  into a JavaScript object
@@ -26,15 +27,34 @@ const user=[
     }
 ]
 
-app.post("/register",(req,res)=>{
+app.post("/register",[
+
+    check("inputname").notEmpty().withMessage("username cannot be empty"),
+    check("inputname").isAlphanumeric().withMessage("username can be only string and int"),
+
+    check("inputemail").notEmpty().withMessage("email cannot be empty"),
+    check("inputemail").isEmail().withMessage("email is not valid"),
+
+    check("inputpassword").notEmpty().withMessage("password cannot be empty"),
+    check("inputpassword").isLength({min:8}).withMessage("password must be 8 charaters")
+
+],(req,res)=>{
     const enterusername=req.body.inputname
     const enteremail=req.body.inputemail
     const enterpassword=req.body.inputpassword
 
-    let newobject={name:enterusername,password:enterpassword,email:enteremail}
-    user.push(newobject)
+    const errors=validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()})
+    }
+    else{
 
-    res.status(200).json({status:200})
+        let newobject={name:enterusername,password:enterpassword,email:enteremail}
+        user.push(newobject)
+    
+        res.status(200).json({status:200})
+    }
+
 
 
 })
@@ -45,7 +65,7 @@ app.post("/login",(req,res)=>{
     let finduser=false
     
     user.forEach(use=>{
-        if(req.body.username===use.name && req.body.password===use.password){
+        if(req.body.username===use.email && req.body.password===use.password){
             finduser=true
             return
         }
