@@ -90,7 +90,7 @@ app.post("/login",(req,res)=>{
 
 
 app.get("/dashboard",auth,(req,res)=>{
-    res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.username})
+    res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.name})
 })
 
 app.get("/create",auth,(req,res)=>{
@@ -110,7 +110,10 @@ function auth(req,res,next){
         if(error){
             return res.status(401).json({message:"invlaid auth",status:401})
         }
-        req.userinfo=data
+
+        const userinputemali=data.username
+        const getusername=user.find(u=>u.email===userinputemali)
+        req.userinfo=getusername
         next()
     })
 }
