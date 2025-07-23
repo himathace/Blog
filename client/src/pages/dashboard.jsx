@@ -112,7 +112,8 @@ function Dash(){
                                     </li>
                                     <li>
                                         <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200" ref={inputref} >
-                                            {inputref.current}
+                                            {/* {inputref.current} */}
+                                            tempuser
                                         </a>
                                     </li>
                                 </>
