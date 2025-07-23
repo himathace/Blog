@@ -5,6 +5,9 @@ const jwt=require("jsonwebtoken")
 const cookieparder=require("cookie-parser")
 const { body , validationResult, check }=require("express-validator")
 require("dotenv").config()
+const mongoose=require("mongoose")
+const users=require("./schema/user")  // import model(collection)
+const bcrypt=require("bcrypt")
 
 app.use(express.json())  // converting a JSON string  into a JavaScript object
 app.use(cors({
@@ -14,18 +17,11 @@ app.use(cors({
 app.use(cookieparder())
 
 
-const user=[
-    {
-        name:"paul",
-        password:"12345",
-        email:"himath@gmail.com"
-    },
-    {
-        name:"bandara",
-        password:"1111",
-        email:"bandara@gmail.com"
-    }
-]
+mongoose.connect(process.env.connection_string)
+.then(()=>console.log("database connected"))
+.catch((error)=>console.error(error))
+
+
 
 app.post("/register",[
 
@@ -51,7 +47,23 @@ app.post("/register",[
 
         let newobject={name:enterusername,password:enterpassword,email:enteremail}
         user.push(newobject)
-    
+        
+
+        const createuser=async ()=>{
+
+            try{
+
+                const hashedPassword = await bcrypt.hash(enterpassword, 10); // hash password
+                const newuser=new users({username:enterusername,email:enteremail,password:hashedPassword}) // create a new user
+                await newuser.save()
+                console.log("user created")
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+        createuser()
+
         res.status(200).json({status:200})
     }
 
@@ -60,21 +72,23 @@ app.post("/register",[
 })
 
 
-app.post("/login",(req,res)=>{
+app.post("/login",async(req,res)=>{
 
-    let finduser=false
-    
-    user.forEach(use=>{
-        if(req.body.username===use.email && req.body.password===use.password){
-            finduser=true
-            return
+
+    try{
+
+        const useremail=await users.findOne({email : req.body.username})
+        if(!useremail){
+            res.status(400).json({message:"username or password invalid",status:400})
         }
-    })
 
-    if(finduser){
+        const isMatch = await bcrypt.compare(req.body.password, useremail.password)
+        if(!isMatch){
+            res.status(400).json({message:"username or password invalid",status:400})
+        }
 
         const token=jwt.sign({username:req.body.username},process.env.serect_key)
-
+    
         res.cookie("logincookie",token,{
             httpOnly:true,
             secure:false,
@@ -82,15 +96,21 @@ app.post("/login",(req,res)=>{
             maxAge:60*60*1000
         })
         res.status(200).json({message:"logged in",status:200})  // convert js object in to json string
-    
-    }else{
-        res.status(400).json({message:"username or password invalid",status:400})
     }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:"Server error", status:500})
+
+    }
+
+
+
+    
 })
 
 
 app.get("/dashboard",auth,(req,res)=>{
-    res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.name})
+    res.status(200).json({message:"this is dashboard",status:200})
 })
 
 app.get("/create",auth,(req,res)=>{
@@ -111,9 +131,9 @@ function auth(req,res,next){
             return res.status(401).json({message:"invlaid auth",status:401})
         }
 
-        const userinputemali=data.username
-        const getusername=user.find(u=>u.email===userinputemali)
-        req.userinfo=getusername
+        // const userinputemali=data.username
+        // const getusername=user.find(u=>u.email===userinputemali)
+        // req.userinfo=getusername
         next()
     })
 }
