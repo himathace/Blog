@@ -8,6 +8,7 @@ require("dotenv").config()
 const mongoose=require("mongoose")
 const users=require("./schema/user")  // import model(collection)
 const bcrypt=require("bcrypt")
+const blog=require("./schema/blogdata")
 
 app.use(express.json())  // converting a JSON string  into a JavaScript object
 app.use(cors({
@@ -44,10 +45,6 @@ app.post("/register",[
         return res.status(400).json({errors:errors.array()})
     }
     else{
-
-        let newobject={name:enterusername,password:enterpassword,email:enteremail}
-        user.push(newobject)
-        
 
         const createuser=async ()=>{
 
@@ -113,8 +110,18 @@ app.get("/dashboard",auth,(req,res)=>{
     res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.username})
 })
 
-app.get("/create",auth,(req,res)=>{
-    res.status(200).json({message:"this is create",status:200})
+app.post("/create",auth,async(req,res)=>{
+
+    try{
+
+        const blogpostdata=new blog({title:req.body.blogtitle,content:req.body.blogcontent,username:req.userinfo.username})
+        await blogpostdata.save()
+        res.status(200).json({status:200})
+    }
+    catch(error){
+        console.log(error)
+    }
+
 })
 
 

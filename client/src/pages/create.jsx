@@ -7,39 +7,41 @@ function Create(){
     const [content,setcontent]=useState("")
     const navigate=useNavigate()
 
-    useEffect(()=>{
+    
 
-        const fetchdata=async ()=>{
+    const fetchdata=async ()=>{
 
-            try{
+        try{
 
-                const userdata=await fetch("http://localhost:3000/create",{
-                    method:"GET",
-                    credentials: "include",
-                    headers:{
-                        "content-Type":"application/json",
-                    }
+            const userdata=await fetch("http://localhost:3000/create",{
+                method:"POST",
+                credentials: "include",
+                headers:{
+                    "content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    blogtitle:title,
+                    blogcontent:content
                 })
+            })
 
-                const data= await userdata.json()
+            const data= await userdata.json()
 
-                if(data.status === 401){
-                    alert("you are not authenticated")
-                    return navigate("/login")
-                }
+            if(data.status === 401){
+                alert("you are not authenticated")
+                return navigate("/login")
             }
-            catch(error){
-                alert(error)
+
+            if(data.status===200){
+                alert("post created")
             }
         }
-
-        fetchdata()
-    },[])
-
-
-    function publishpost(){
-        
+        catch(error){
+            alert(error)
+        }
     }
+
+    
 
 
     return(
@@ -74,7 +76,7 @@ function Create(){
                     <button 
                         type="submit" 
                         class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-colors duration-200"
-                        onClick={publishpost}
+                        onClick={fetchdata}
                     >
                         Publish
                     </button>
