@@ -87,7 +87,7 @@ app.post("/login",async(req,res)=>{
             res.status(400).json({message:"username or password invalid",status:400})
         }
 
-        const token=jwt.sign({username:req.body.username},process.env.serect_key)
+        const token=jwt.sign({username:useremail.username},process.env.serect_key)
     
         res.cookie("logincookie",token,{
             httpOnly:true,
@@ -110,7 +110,7 @@ app.post("/login",async(req,res)=>{
 
 
 app.get("/dashboard",auth,(req,res)=>{
-    res.status(200).json({message:"this is dashboard",status:200})
+    res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.username})
 })
 
 app.get("/create",auth,(req,res)=>{
@@ -130,10 +130,7 @@ function auth(req,res,next){
         if(error){
             return res.status(401).json({message:"invlaid auth",status:401})
         }
-
-        // const userinputemali=data.username
-        // const getusername=user.find(u=>u.email===userinputemali)
-        // req.userinfo=getusername
+        req.userinfo=data
         next()
     })
 }
