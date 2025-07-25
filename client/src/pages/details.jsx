@@ -1,16 +1,44 @@
+import { useEffect,useState } from "react"
+import { useParams } from "react-router-dom"
+
 function Details(){
+
+    const params=useParams()
+    const id=params.id
+
+    const [data,displaydata]=useState("")
+
+
+    useEffect(()=>{
+
+        const displaydetails=async ()=>{
+
+            try{
+                const userdata=await fetch(`http://localhost:3000/details/${id}`)
+                const datax=await userdata.json()
+                displaydata(datax.fulldata)
+            }
+            catch(error){
+                alert(error)
+            }
+
+
+        }
+
+        displaydetails()
+    },[])
 
     return(
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
             <div className="bg-white shadow-lg rounded-lg p-6 sm:p-8 lg:p-10 max-w-3xl w-full">
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">Feture of AI</h1>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">{data.title}</h1>
                 <p className="text-base sm:text-lg text-gray-600 mb-6">
-                by <span className="font-medium text-gray-800">himath</span>
+                by <span className="font-medium text-gray-800">{data.username}</span>
                 </p>
 
                 <div className="text-gray-800 leading-relaxed space-y-4 text-base sm:text-lg">
                     <div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora hic provident officiis ducimus ex odio quibusdam tenetur, illo reprehenderit praesentium nulla rem itaque eius ea quod non nemo accusantium suscipit, quaerat quis aperiam dolorum dolorem? Quibusdam saepe vel sed laboriosam aspernatur est iusto, ut nulla obcaecati quod nobis officia, dicta, quisquam maiores fugiat sunt ea asperiores amet. Incidunt voluptate perferendis neque magnam dolore nulla expedita repellendus, inventore animi molestiae. Culpa repellendus odit sit officia ullam labore dolorem quae! Reiciendis placeat molestias officia repellat praesentium hic numquam natus, illum nihil, velit exercitationem vitae optio non officiis doloremque nemo iure? Cumque, vero!</p>
+                        <p>{data.content}</p>
                     </div>
                 </div>
 

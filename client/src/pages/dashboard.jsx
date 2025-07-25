@@ -52,7 +52,7 @@ function Dash(){
         }
 
         validate()
-    },[location.pathname])
+    },[location.pathname]) // run use effect every time path change
 
 
     const logout=async ()=>{

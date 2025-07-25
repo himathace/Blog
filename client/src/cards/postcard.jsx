@@ -7,7 +7,7 @@ function Postcard({post}){
             <p className="text-gray-600 mb-4">
             by <span className="font-medium text-gray-700">{post.username}</span>
             </p>
-            <a href="/details" className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
+            <a href={`/details/${post._id}`} className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
             Read More
             <svg
                 xmlns="http://www.w3.org/2000/svg"

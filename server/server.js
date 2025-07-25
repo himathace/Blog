@@ -160,6 +160,19 @@ app.post("/create",auth,async(req,res)=>{
 
 })
 
+app.get("/details/:id",async(req,res)=>{
+
+    try{
+        const pageid=req.params.id
+        const fulldetails=await blog.findOne({_id:pageid})
+        res.json({fulldata:fulldetails})
+    }
+    catch(error){
+        console.log(error)
+    }
+
+})
+
 
 
 
