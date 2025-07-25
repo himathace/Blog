@@ -106,7 +106,7 @@ app.post("/login",async(req,res)=>{
 })
 
 
-const auth=async (req,res,next)=>{
+const auth=async (req,res,next)=>{   //  async middlewere
 
     try{
 
