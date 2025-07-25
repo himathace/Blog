@@ -5,7 +5,7 @@ function Postcard({post}){
         <article className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
             <h2 className="text-2xl font-semibold mb-2 text-gray-900">{post.title}</h2>
             <p className="text-gray-600 mb-4">
-            by <span className="font-medium text-gray-700">{post.author}</span>
+            by <span className="font-medium text-gray-700">{post.username}</span>
             </p>
             <a href="/details" className="inline-flex items-center text-gray-700 hover:text-gray-900 font-medium group">
             Read More

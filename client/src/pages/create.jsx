@@ -34,6 +34,7 @@ function Create(){
 
             if(data.status===200){
                 alert("post created")
+                navigate("/")
             }
         }
         catch(error){

@@ -1,5 +1,5 @@
 import { useEffect,useState,useRef } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate,useLocation } from "react-router-dom"
 import Postcard from "../cards/postcard"
 
 function Dash(){
@@ -7,8 +7,10 @@ function Dash(){
     const [display,setdispaly]=useState(0)
     const [loading,setLoading]=useState(true)
     const inputref=useRef(null)
+    const [databsedata,setdatabasedata]=useState([])
 
     const navigate=useNavigate()
+    const location=useLocation()
 
 
 
@@ -30,12 +32,14 @@ function Dash(){
                 const data=await userdata.json()
                 
                 if(data.status === 401){
-                    return setdispaly(0)
+                    setdatabasedata(data.dbdata)
+                    setdispaly(0)
                 }
 
                 if(data.status===200){
                     inputref.current=data.name
-                    return setdispaly(1)
+                    setdatabasedata(data.dbdata)
+                    setdispaly(1)
                 }
             }
             catch(error){
@@ -48,7 +52,7 @@ function Dash(){
         }
 
         validate()
-    },[])
+    },[location.pathname])
 
 
     const logout=async ()=>{
@@ -64,8 +68,9 @@ function Dash(){
             })
             const data=await logoutuser.json()
             alert(data.message)
-            navigate("/")
             setdispaly(0)
+            navigate("/")
+
 
         }
         catch(error){
@@ -136,7 +141,11 @@ function Dash(){
 
                     <div className="space-y-8">
 
-                        <Postcard post={{title:"Feture of AI",author:"himath demiwka"}}/>
+                        {
+                            databsedata.map((val)=>{
+                                return <Postcard post={val} key={val._id}  />
+                            })
+                        }
                     </div>
                 </main>
             </div>
