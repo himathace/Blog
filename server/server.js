@@ -106,9 +106,45 @@ app.post("/login",async(req,res)=>{
 })
 
 
-app.get("/dashboard",auth,(req,res)=>{
-    res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.username})
+const auth=async (req,res,next)=>{
+
+    try{
+
+        const token=req.cookies.logincookie
+        
+        if(!token){
+            const getbloginfo=await blog.find()
+            return res.status(401).json({message:"unauthorized",status:401,dbdata:getbloginfo})
+        }
+        
+        jwt.verify(token,process.env.serect_key,(error,data)=>{
+            if(error){
+                return res.status(401).json({message:"invlaid auth",status:401})
+            }
+            req.userinfo=data
+            next()
+        })
+    }
+    catch(error){
+        res.json({message:error})
+    }
+}    
+
+
+
+
+app.get("/dashboard",auth,async(req,res)=>{
+
+    try{
+        const getbloginfo=await blog.find()
+        res.status(200).json({message:"this is dashboard",status:200,name:req.userinfo.username,dbdata:getbloginfo})
+    }
+    catch(error){
+        res.json({message:"error"})
+        
+    }
 })
+
 
 app.post("/create",auth,async(req,res)=>{
 
@@ -125,22 +161,8 @@ app.post("/create",auth,async(req,res)=>{
 })
 
 
-function auth(req,res,next){    
 
-    const token=req.cookies.logincookie
 
-    if(!token){
-        return res.status(401).json({message:"unauthorized",status:401})
-    }
-
-    jwt.verify(token,process.env.serect_key,(error,data)=>{
-        if(error){
-            return res.status(401).json({message:"invlaid auth",status:401})
-        }
-        req.userinfo=data
-        next()
-    })
-}
 
 app.post("/logout",(req,res)=>{
     res.clearCookie("logincookie")
