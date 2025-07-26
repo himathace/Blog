@@ -176,6 +176,30 @@ app.get("/details/:id",auth,async(req,res)=>{
 
 })
 
+app.put("/update/:id",async(req,res)=>{
+
+    try{
+
+        const updatebyid=req.params.id
+
+        const newbtitle=req.body.uptitle
+        const newbcontent=req.body.upcontent
+
+        await blog.findByIdAndUpdate(updatebyid,{
+            title:newbtitle,
+            content:newbcontent
+        },{
+            new:true
+        })
+        res.status(200).json({status:200})
+    }
+    catch(error){
+        res.status(400).json({status:400})
+        
+    }
+
+})
+
 
 
 

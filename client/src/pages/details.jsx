@@ -55,7 +55,7 @@ function Details(){
                         displayedit===1 && (
 
                             <>
-                                <a href="#" className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
+                                <a href={`/update/${data._id}`} className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
                                 Edit
                                 </a>
                                 <a href="#" className="text-red-600 hover:text-red-800 font-medium transition-colors duration-200">

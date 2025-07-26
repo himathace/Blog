@@ -6,6 +6,7 @@ function Dash(){
 
     const [display,setdispaly]=useState(0)
     const [loading,setLoading]=useState(true)
+    const [myname,setmyname]=useState("")
     const inputref=useRef(null)
     const [databsedata,setdatabasedata]=useState([])
 
@@ -37,7 +38,7 @@ function Dash(){
                 }
 
                 if(data.status===200){
-                    inputref.current=data.name
+                    setmyname(data.name)
                     setdatabasedata(data.dbdata)
                     setdispaly(1)
                 }
@@ -52,7 +53,9 @@ function Dash(){
         }
 
         validate()
-    },[location.pathname]) // run use effect every time path change
+
+        
+    },[location.pathname,location.key]) // run use effect every time path change
 
 
     const logout=async ()=>{
@@ -116,8 +119,8 @@ function Dash(){
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200" ref={inputref} >
-                                            {inputref.current}
+                                        <a href="#" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200" >
+                                            {myname}
                                         </a>
                                     </li>
                                 </>

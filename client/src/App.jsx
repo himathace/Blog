@@ -3,6 +3,7 @@ import Dash from './pages/dashboard'
 import Create from './pages/create'
 import Register from './pages/register'
 import Details from './pages/details'
+import Update from './pages/update'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
           <Route path='/create' element={<Create />}></Route>
           <Route path='/register' element={<Register />}></Route>
           <Route path='/details/:id' element={<Details />}></Route>
+          <Route path='/update/:id' element={<Update />}></Route>
+
         </Routes>
       
       </BrowserRouter>
