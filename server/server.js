@@ -168,7 +168,7 @@ app.get("/details/:id",auth,async(req,res)=>{
     try{
         const pageid=req.params.id // get id 
         const fulldetails=await blog.findOne({_id:pageid})
-        res.json({fulldata:fulldetails,status:200})
+        res.json({fulldata:fulldetails,status:200,checkvalid:req.userinfo.username})
     }
     catch(error){
         console.log(error)

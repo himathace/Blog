@@ -21,7 +21,7 @@ function Details(){
                 const datax=await userdata.json()
                 displaydata(datax.fulldata)
 
-                if(datax.status!=401){
+                if(datax.status!=401 && datax.checkvalid===datax.fulldata.username ){
                     setdispalyedit(1)
                 }
             }
