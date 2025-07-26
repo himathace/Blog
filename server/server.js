@@ -113,8 +113,11 @@ const auth=async (req,res,next)=>{   //  async middlewere
         const token=req.cookies.logincookie
         
         if(!token){
+
+            const pageid=req.params.id // get id 
+            const fulldetails=await blog.findOne({_id:pageid})
             const getbloginfo=await blog.find()
-            return res.status(401).json({message:"unauthorized",status:401,dbdata:getbloginfo})
+            return res.status(401).json({message:"unauthorized",status:401,dbdata:getbloginfo,fulldata:fulldetails})
         }
         
         jwt.verify(token,process.env.serect_key,(error,data)=>{
@@ -160,12 +163,12 @@ app.post("/create",auth,async(req,res)=>{
 
 })
 
-app.get("/details/:id",async(req,res)=>{
+app.get("/details/:id",auth,async(req,res)=>{
 
     try{
         const pageid=req.params.id // get id 
         const fulldetails=await blog.findOne({_id:pageid})
-        res.json({fulldata:fulldetails})
+        res.json({fulldata:fulldetails,status:200})
     }
     catch(error){
         console.log(error)

@@ -7,6 +7,7 @@ function Details(){
     const id=params.id
 
     const [data,displaydata]=useState("")
+    const [displayedit,setdispalyedit]=useState(0)
 
 
     useEffect(()=>{
@@ -14,9 +15,15 @@ function Details(){
         const displaydetails=async ()=>{
 
             try{
-                const userdata=await fetch(`http://localhost:3000/details/${id}`)
+                const userdata=await fetch(`http://localhost:3000/details/${id}`,{
+                    credentials:"include" // include credentials (cookies, authorization headers, and TLS client certificates) when making the HTTP request.
+                })
                 const datax=await userdata.json()
                 displaydata(datax.fulldata)
+
+                if(datax.status!=401){
+                    setdispalyedit(1)
+                }
             }
             catch(error){
                 alert(error)
@@ -43,12 +50,21 @@ function Details(){
                 </div>
 
                 <div className="mt-8 flex space-x-4">
-                    <a href="#" className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
-                    Edit
-                    </a>
-                    <a href="#" className="text-red-600 hover:text-red-800 font-medium transition-colors duration-200">
-                    Delete
-                    </a>
+
+                    {
+                        displayedit===1 && (
+
+                            <>
+                                <a href="#" className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
+                                Edit
+                                </a>
+                                <a href="#" className="text-red-600 hover:text-red-800 font-medium transition-colors duration-200">
+                                Delete
+                                </a>
+                            </>
+
+                        )
+                    }
                 </div>
             </div>
         </div>
