@@ -1,5 +1,6 @@
 import { useEffect,useState } from "react"
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 function Details(){
 
@@ -8,6 +9,8 @@ function Details(){
 
     const [data,displaydata]=useState("")
     const [displayedit,setdispalyedit]=useState(0)
+
+    const navigate=useNavigate()
 
 
     useEffect(()=>{
@@ -35,6 +38,38 @@ function Details(){
         displaydetails()
     },[])
 
+
+    const deletedata=async ()=>{
+
+        try{
+
+            const userdata=await fetch(`http://localhost:3000/delete/${id}`,{
+                method:"DELETE",
+                credentials: "include"
+            })
+            const data=await userdata.json()
+
+            if(data.status===404){
+                alert("blog not found")
+            }
+
+            if(data.status===200){
+                alert("post deleted successfully")
+                navigate("/")
+            }
+
+            if(data.status===400){
+                alert("error")
+            }
+
+
+        }
+        catch(error){
+            alert(error)
+        }
+    }
+
+
     return(
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
             <div className="bg-white shadow-lg rounded-lg p-6 sm:p-8 lg:p-10 max-w-3xl w-full">
@@ -58,7 +93,7 @@ function Details(){
                                 <a href={`/update/${data._id}`} className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">
                                 Edit
                                 </a>
-                                <a href="#" className="text-red-600 hover:text-red-800 font-medium transition-colors duration-200">
+                                <a  className="text-red-600 hover:text-red-800 font-medium transition-colors duration-200 hover:cursor-pointer " onClick={deletedata}>
                                 Delete
                                 </a>
                             </>

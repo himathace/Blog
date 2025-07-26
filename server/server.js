@@ -176,7 +176,7 @@ app.get("/details/:id",auth,async(req,res)=>{
 
 })
 
-app.put("/update/:id",async(req,res)=>{
+app.put("/update/:id",auth,async(req,res)=>{
 
     try{
 
@@ -196,6 +196,24 @@ app.put("/update/:id",async(req,res)=>{
     catch(error){
         res.status(400).json({status:400})
         
+    }
+
+})
+
+app.delete("/delete/:id",auth,async(req,res)=>{
+
+    try{
+
+        const deletebyid=req.params.id
+        const deleteblog=await blog.findByIdAndDelete(deletebyid)
+        if(!deleteblog){
+            return res.status(404).json({status:404})
+        }
+        res.status(200).json({status:200})
+
+    }
+    catch(error){
+        res.status(400).json({status:400})
     }
 
 })
