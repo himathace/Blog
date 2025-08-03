@@ -1,6 +1,8 @@
 import { useEffect,useState } from "react"
 import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import { MessageCircle, Bookmark, ThumbsUp, ThumbsDown, Send } from "lucide-react"
+
 
 function Details(){
 
@@ -11,6 +13,12 @@ function Details(){
     const [displayedit,setdispalyedit]=useState(0)
 
     const navigate=useNavigate()
+
+    const [likecount,setlikecount]=useState(0)
+    const [dislikecount,setdislikecount]=useState(0)
+
+
+    
 
 
     useEffect(()=>{
@@ -84,7 +92,18 @@ function Details(){
                     </div>
                 </div>
 
-                <div className="mt-8 flex space-x-4">
+                <div className="mt-5 flex gap-x-5">
+                    <div className="flex gap-x-2 hover:text-blue-400 hover:cursor-pointer transition-all duration-300" onClick={()=>{setlikecount(prev=>prev==0 ? 1 : 0),likes()}}>
+                        <ThumbsUp className={`w-5 h-5 ${likecount===1 && "fill-current text-blue-600"}`}  />
+                    </div>
+                    <div className="flex gap-x-2 hover:text-red-600 hover:cursor-pointer transition-all duration-200"onClick={()=>{setdislikecount(prev=>prev==0 ? 1 : 0),dislike()}}>
+                        <ThumbsDown className={`w-5 h-5 ${dislikecount===1 && "fill-current text-red-600"} `}   />
+                    </div>
+                    <MessageCircle  className="w-5 h-5 hover:text-gray-400 transition-all duration-300"/>
+                    <Bookmark />
+                </div>
+
+                <div className="mt-5 flex space-x-4">
 
                     {
                         displayedit===1 && (
