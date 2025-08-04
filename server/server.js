@@ -153,7 +153,7 @@ app.post("/create",auth,async(req,res)=>{
 
     try{
 
-        const blogpostdata=new blog({title:req.body.blogtitle,content:req.body.blogcontent,username:req.userinfo.username})
+        const blogpostdata=new blog({title:req.body.blogtitle,content:req.body.blogcontent,username:req.userinfo.username,catogary:req.body.blogcatogary})
         await blogpostdata.save()
         res.status(200).json({status:200})
     }

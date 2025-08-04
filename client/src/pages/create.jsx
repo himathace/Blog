@@ -5,6 +5,7 @@ function Create(){
 
     const [title,settiele]=useState("")
     const [content,setcontent]=useState("")
+    const [category,setcategory]=useState("")
     const navigate=useNavigate()
 
     
@@ -21,7 +22,8 @@ function Create(){
                 },
                 body:JSON.stringify({
                     blogtitle:title,
-                    blogcontent:content
+                    blogcontent:content,
+                    blogcatogary:category
                 })
             })
 
@@ -60,6 +62,25 @@ function Create(){
                         class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-base placeholder-gray-400 text-gray-900"
                         onChange={(e)=>{settiele(e.target.value)}}
                     />
+                </div>
+
+                <div class="mb-6">
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select 
+                        id="category" 
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-base text-gray-900 bg-white"
+                        value={category}
+                        onChange={(e)=>setcategory(e.target.value)}
+                    >
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="tech">Tech</option>
+                        <option value="business">Business</option>
+                        <option value="lifestyle">Lifestyle</option>
+                        <option value="health">Health</option>
+                        <option value="education">Education</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
                 
                 <div class="mb-8">
