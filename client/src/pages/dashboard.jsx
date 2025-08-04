@@ -1,5 +1,5 @@
-import { useEffect,useState,useRef } from "react"
-import { useNavigate,useLocation } from "react-router-dom"
+import { useEffect,useState} from "react"
+import { useNavigate} from "react-router-dom"
 import Postcard from "../cards/postcard"
 
 function Dash(){
@@ -7,11 +7,11 @@ function Dash(){
     const [display,setdispaly]=useState(0)
     const [loading,setLoading]=useState(true)
     const [myname,setmyname]=useState("")
-    const inputref=useRef(null)
-    const [databsedata,setdatabasedata]=useState([])
 
     const navigate=useNavigate()
-    const location=useLocation()
+
+    const [searchblogs,setsearchblogs]=useState("")
+    const [diserch,setdiserch]=useState([])
 
 
 
@@ -33,13 +33,11 @@ function Dash(){
                 const data=await userdata.json()
                 
                 if(data.status === 401){
-                    setdatabasedata(data.dbdata)
                     setdispaly(0)
                 }
 
                 if(data.status===200){
                     setmyname(data.name)
-                    setdatabasedata(data.dbdata)
                     setdispaly(1)
                 }
             }
@@ -55,7 +53,7 @@ function Dash(){
         validate()
 
         
-    },[location.pathname,location.key]) // run use effect every time path change
+    },[]) // run use effect every time path change
 
 
     const logout=async ()=>{
@@ -80,6 +78,28 @@ function Dash(){
             alert(error)
         }
     }
+
+
+    useEffect(()=>{
+
+        const searchblogsxx=async ()=>{
+
+            try{
+
+                const userdata=await fetch(`http://localhost:3000?search=${searchblogs}`)
+                const data=await userdata.json()
+                setdiserch(data.message)
+
+
+            }
+            catch(error){
+                alert(error)
+            }
+        }
+
+        searchblogsxx()
+
+    },[searchblogs])
 
 
     if(loading){
@@ -142,10 +162,39 @@ function Dash(){
                 <main className="max-w-4xl mx-auto py-10 px-6 md:px-8">
                     <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">BLOG POSTS</h1>
 
+
+                    <div className="mb-8">
+                        <div className="relative max-w-md mx-auto">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg
+                                className="h-5 w-5 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
+                            </svg>
+                            </div>
+                            <input
+                            type="text"
+                            placeholder="Search blog posts..."
+                            value={searchblogs}
+                            onChange={(e)=>{setsearchblogs(e.target.value)}}
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                            />
+                        </div>
+                    </div>
+
                     <div className="space-y-8">
 
                         {
-                            databsedata.map((val)=>{
+                            diserch.map((val)=>{
                                 return <Postcard post={val} key={val._id}  />
                             })
                         }

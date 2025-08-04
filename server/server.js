@@ -219,6 +219,35 @@ app.delete("/delete/:id",auth,async(req,res)=>{
 })
 
 
+app.get("/",async(req,res)=>{
+
+    try{
+
+        const search=req.query.search
+        if(search){
+
+            const searchblogs=await blog.find({
+                $or:[
+                    { title: { $regex: search, $options: "i" } },
+                    { username: { $regex: search, $options: "i" } }
+                ]
+            })
+    
+            return res.json({message:searchblogs})
+        }
+
+        const getbloginfo=await blog.find()
+        res.json({message:getbloginfo})
+
+    }
+    catch(error){
+
+        res.status(400).json({message:400})
+    }
+
+})
+
+
 
 
 
