@@ -13,6 +13,9 @@ function Dash(){
     const [searchblogs,setsearchblogs]=useState("")
     const [diserch,setdiserch]=useState([])
 
+    const [catogary,setcatogary]=useState("")
+    const [colorcatogary,setcolorcatogary]=useState(0)
+
 
 
     useEffect(()=>{
@@ -86,7 +89,7 @@ function Dash(){
 
             try{
 
-                const userdata=await fetch(`http://localhost:3000?search=${searchblogs}`)
+                const userdata=await fetch(`http://localhost:3000?search=${searchblogs}&category=${catogary}`)
                 const data=await userdata.json()
                 setdiserch(data.message)
 
@@ -99,8 +102,7 @@ function Dash(){
 
         searchblogsxx()
 
-    },[searchblogs])
-
+    },[searchblogs,catogary])
 
     if(loading){
 
@@ -187,10 +189,30 @@ function Dash(){
                             value={searchblogs}
                             onChange={(e)=>{setsearchblogs(e.target.value)}}
                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
-                            />
+                            />  
                         </div>
                     </div>
 
+
+                    <div className="flex gap-5 my-5">
+                        <button className={`px-3 py-1 rounded-full text-sm font-mediumv ${ colorcatogary===0 ? "text-white bg-black" : "text-black bg-white"}   transition-colors duration-300`} onClick={()=>{setcatogary(""),setcolorcatogary(0)}} >All</button>
+
+                        <button className={`px-3 py-1 rounded-full text-sm font-medium  border ${ colorcatogary===1 ? "text-white bg-black" : "text-black bg-white"} border-gray-300  transition-colors duration-300`} onClick={()=>{setcatogary("tech"),setcolorcatogary(1)}}>Tech</button>
+
+                        <button className={`px-3 py-1 rounded-full text-sm font-medium ${ colorcatogary===2 ? "text-white bg-black" : "text-black bg-white"} border border-gray-300  transition-colors duration-300`} onClick={()=>{setcatogary("Business"),setcolorcatogary(2)}}>Business</button>
+
+                        <button className={`px-3 py-1 rounded-full text-sm font-medium text-black border border-gray-300 ${ colorcatogary===3 ? "text-white bg-black" : "text-black bg-white"}   transition-colors duration-300`} onClick={()=>{setcatogary("health"),setcolorcatogary(3)}}>Health</button>
+
+                        <button className={`px-3 py-1 rounded-full text-sm font-medium ${colorcatogary===4 ? "text-white bg-black" : "text-black bg-white"}  border border-gray-300   transition-colors duration-300`} onClick={()=>{setcatogary("education"),setcolorcatogary(4)}}>Education</button>
+
+                        <button className={`px-3 py-1 rounded-full text-sm font-medium ${colorcatogary===5 ? "text-white bg-black " : "text-black bg-white"} text-black border border-gray-300   transition-colors duration-300`} onClick={()=>{setcatogary("other"),setcolorcatogary(5)}}>other</button>
+
+                    </div>
+
+
+
+
+            
                     <div className="space-y-8">
 
                         {

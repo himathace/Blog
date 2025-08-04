@@ -224,6 +224,8 @@ app.get("/",async(req,res)=>{
     try{
 
         const search=req.query.search
+        const cat=req.query.category
+
         if(search){
 
             const searchblogs=await blog.find({
@@ -236,7 +238,13 @@ app.get("/",async(req,res)=>{
             return res.json({message:searchblogs})
         }
 
-        const getbloginfo=await blog.find()
+        const query={}
+
+        if(cat){
+            query.catogary=cat
+        }
+
+        const getbloginfo=await blog.find(query)
         res.json({message:getbloginfo})
 
     }
