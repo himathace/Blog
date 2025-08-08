@@ -1,6 +1,7 @@
 import { useEffect,useState} from "react"
 import { useNavigate} from "react-router-dom"
 import Postcard from "../cards/postcard"
+import Error from "../cards/error"
 
 function Dash(){
 
@@ -161,7 +162,7 @@ function Dash(){
                 </nav>
 
                 {/* Main Content - Blog Posts */}
-                <main className="max-w-4xl mx-auto py-10 px-6 md:px-8">
+                <main className="max-w-6xl mx-auto py-10 px-6 md:px-8">
                     <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">BLOG POSTS</h1>
 
 
@@ -213,14 +214,19 @@ function Dash(){
 
 
             
-                    <div className="space-y-8">
+                    <div className="grid grid-cols-3 gap-x-5 gap-y-5">
 
                         {
                             diserch.map((val)=>{
                                 return <Postcard post={val} key={val._id}  />
                             })
+
                         }
                     </div>
+
+                    {
+                        diserch.length===0 && <Error />
+                    }
                 </main>
             </div>
         </>
