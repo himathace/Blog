@@ -50,10 +50,13 @@ npm run dev
 
 ## Screenshots
 
-![Dashboard](./assets/Screenshot%20(658).png)
+![Dashboard](./assets/afterlo.png)
 ![login](./assets/login.png)
 ![register](./assets/register.png)
-![Dashboardlogin](./assets/logindashboard.png)
+![Dashboardlogin](./assets/updateddas.png)
+![health](./assets/health.png)
+![npmatch](./assets/nomatch.png)
+![search](./assets/search.png)
 ![create](./assets/createpost.png)
 ![createblog](./assets/blogpost.png)
 ![Display](./assets/displaypost.png)

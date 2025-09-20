@@ -119,7 +119,6 @@ function Dash(){
 
         <>
             <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
-                {/* Navbar */}
                 <nav className="bg-white shadow-sm border-b border-gray-100 py-4 px-6 md:px-8">
                     <div className="max-w-4xl mx-auto flex justify-between items-center">
                     <div className="text-lg font-bold text-gray-900">My Blog</div>
@@ -163,7 +162,7 @@ function Dash(){
 
                 {/* Main Content - Blog Posts */}
                 <main className="max-w-6xl mx-auto py-10 px-6 md:px-8">
-                    <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">BLOG POSTS</h1>
+                    <h1 className="md:text-3xl font-bold text-center mb-8 text-gray-900 sm:text-xl">BLOG POSTS</h1>
 
 
                     <div className="mb-8">
@@ -214,7 +213,7 @@ function Dash(){
 
 
             
-                    <div className="grid grid-cols-3 gap-x-5 gap-y-5">
+                    <div className="md:grid md:grid-cols-3 gap-x-5 gap-y-5 sm:flex sm:flex-col">
 
                         {
                             diserch.map((val)=>{

@@ -3,7 +3,7 @@ function Postcard({post}){
     return(
 
         <article className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-56">
-            <h2 className="text-xl font-bold line-clamp-1 mb-2 text-black">{post.title}</h2>
+            <h2 className="md:text-xl font-bold line-clamp-1 mb-2 text-black sm:text-lg">{post.title}</h2>
             <p className="text-gray-600 mb-4">
             by <span className="font-medium text-gray-700">{post.username}</span>
             </p>

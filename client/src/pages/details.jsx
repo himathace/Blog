@@ -81,12 +81,12 @@ function Details(){
     return(
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 lg:p-8">
             <div className="bg-white shadow-lg rounded-lg p-6 sm:p-8 lg:p-10 max-w-3xl w-full">
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">{data.title}</h1>
-                <p className="text-base sm:text-lg text-gray-600 mb-6">
+                <h1 className="md:text-3xl sm:text-2xl font-extrabold text-gray-900 mb-3">{data.title}</h1>
+                <p className="md:text-xl sm:text-sm text-gray-600 mb-6">
                 by <span className="font-medium text-gray-800">{data.username}</span>
                 </p>
 
-                <div className="text-gray-800 leading-relaxed space-y-4 text-base sm:text-lg">
+                <div className="text-gray-800 leading-relaxed space-y-4 md:text-base sm:text-sm">
                     <div>
                         <p>{data.content}</p>
                     </div>
