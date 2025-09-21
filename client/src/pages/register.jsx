@@ -8,6 +8,7 @@ function Register(){
     const [username,setusername]=useState("")
     const [email,setemail]=useState("")
     const [password,setpassword]=useState("")
+    const [error,seterror]=useState(null)
 
     const send_credentails=async ()=>{
 
@@ -35,7 +36,8 @@ function Register(){
             else{
                 
                 if(data.errors && data.errors.length > 0){
-                    alert(data.errors[0].msg)
+                    // alert(data.errors[0].msg)
+                    seterror(data.errors[0].msg)
                 }
                 else{
                     alert("registration falid")
@@ -57,15 +59,18 @@ function Register(){
                 <div className="text-slate-500 mb-10 text-center text-sm">Please fill in your details to sign up</div>
                 <div className="mb-6">
                     <label for="email" className="block mb-3 text-sm font-semibold">username</label>
-                    <input type="email" id="email" placeholder="Enter your username" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1] focus:outline-none focus:ring-2 focus:ring-gray-700 " required onChange={(e)=>{setusername(e.target.value)}} ></input>
+                    <input type="email" id="email" placeholder="Enter your username" className={`w-full rounded-md h-10 p-4 border focus:outline-none focus:ring-2 focus:ring-gray-700 ${error && error.includes("Username") ? " border-2 border-red-800" : "border-[#e1e1e1]"}  `} onFocus={()=>seterror(null)} required onChange={(e)=>{setusername(e.target.value)}} ></input>
+                    <p className="text-xs text-red-800" >{error && error.includes("Username") && error}</p>
                 </div>
                 <div className="mb-6">
                     <label for="email" className="block mb-3 text-sm font-semibold">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1] focus:outline-none focus:ring-2 focus:ring-gray-700 " required onChange={(e)=>{setemail(e.target.value)}} ></input>
+                    <input type="email" id="email" placeholder="Enter your email" className={`w-full rounded-md h-10 p-4 border  focus:outline-none focus:ring-2 focus:ring-gray-700  ${error && error.includes("Email") ? "border-2 border-red-800" : "border-[#e1e1e1]" } `} required onChange={(e)=>{setemail(e.target.value)}} onFocus={()=> seterror(null)} ></input>
+                    <p className="text-xs text-red-800" >{error && error.includes("Email") && error}</p>
                 </div>
                 <div className="mb-4">
                     <label for="password" className="block mb-3 text-sm font-semibold">Password</label>
-                    <input type="password" id="password" placeholder="••••••••" className="w-full rounded-md h-10 p-4 border border-[#e1e1e1]  focus:outline-none focus:ring-2 focus:ring-gray-700" required onChange={(e)=>{setpassword(e.target.value)}} ></input>
+                    <input type="password" id="password" placeholder="••••••••" className={`w-full rounded-md h-10 p-4 border   focus:outline-none focus:ring-2 focus:ring-gray-700 ${ error && error.includes("Password") ? "border-2 border-red-800" : "border-[#e1e1e1]" } `} required onChange={(e)=>{setpassword(e.target.value)}} onFocus={()=> seterror(null)} ></input>
+                    <p className="text-xs text-red-800" >{error && error.includes("Password") && error}</p>
                 </div>
                 <div className=" text-gray-500 mb-4 space-x-3 flex items-start">
                     <input type="checkbox" className="mt-1"></input>

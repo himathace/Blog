@@ -26,14 +26,14 @@ mongoose.connect(process.env.connection_string)
 
 app.post("/register",[
 
-    check("inputname").notEmpty().withMessage("username cannot be empty"),
-    check("inputname").isAlphanumeric().withMessage("username can be only string and int"),
+    check("inputname").notEmpty().withMessage("Username Cannot be Empty*"),
+    check("inputname").isAlphanumeric().withMessage("Username can be only string and int"),
 
-    check("inputemail").notEmpty().withMessage("email cannot be empty"),
-    check("inputemail").isEmail().withMessage("email is not valid"),
+    check("inputemail").notEmpty().withMessage("Email Cannot be Empty"),
+    check("inputemail").isEmail().withMessage("Email is not valid"),
 
-    check("inputpassword").notEmpty().withMessage("password cannot be empty"),
-    check("inputpassword").isLength({min:8}).withMessage("password must be 8 charaters")
+    check("inputpassword").notEmpty().withMessage("Password Cannot be Empty"),
+    check("inputpassword").isLength({min:8}).withMessage("Password must be 8 Charaters Long")
 
 ],(req,res)=>{
     const enterusername=req.body.inputname
