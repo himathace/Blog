@@ -2,6 +2,7 @@ import { useEffect,useState} from "react"
 import { useNavigate} from "react-router-dom"
 import Postcard from "../cards/postcard"
 import Error from "../cards/error"
+import {motion} from "motion/react"
 
 function Dash(){
 
@@ -217,7 +218,21 @@ function Dash(){
 
                         {
                             diserch.map((val)=>{
-                                return <Postcard post={val} key={val._id}  />
+                                return (
+                                    <motion.div 
+                                    key={val._id}
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    whileHover={{scale:1.05}}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                        duration: 0.4,
+                                        scale: { type: "spring", visualDuration: 0.4, bounce: 0.3},
+                                    }}
+                                >
+                                    <Postcard post={val} />
+                                </motion.div>
+
+                                )
                             })
 
                         }
