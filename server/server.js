@@ -9,6 +9,9 @@ const mongoose=require("mongoose")
 const users=require("./schema/user")  // import model(collection)
 const bcrypt=require("bcrypt")
 const blog=require("./schema/blogdata")
+const passport=require("passport")
+require("./config/passport")
+
 
 app.use(express.json())  // converting a JSON string  into a JavaScript object
 app.use(cors({
@@ -22,6 +25,36 @@ mongoose.connect(process.env.connection_string)
 .then(()=>console.log("database connected"))
 .catch((error)=>console.error(error))
 
+app.get("/auth/google",
+    passport.authenticate("google",{scope: ["profile","email"]})
+)
+
+app.get("/auth/google/callback", 
+    passport.authenticate("google", { session: false }),
+    async (req, res) => {
+        try {
+            // Generate JWT token
+            const token = jwt.sign(
+                { username: req.user.username }, 
+                process.env.serect_key,
+            )
+            
+            // Set cookie
+            res.cookie("logincookie", token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: "strict",
+                maxAge: 60 * 60 * 1000
+            })
+            
+            // Redirect to frontend
+            res.redirect("http://localhost:5173")
+        } catch (error) {
+            console.error(error)
+            res.redirect("http://localhost:5173/login?error=auth_failed")
+        }
+    }
+)
 
 
 app.post("/register",[
